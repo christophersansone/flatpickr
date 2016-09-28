@@ -1,3 +1,5 @@
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 /*! flatpickr v2.0, @license MIT */
@@ -163,7 +165,7 @@ function Flatpickr(element, config) {
 			self.days.tabIndex = -1;
 		}
 
-		var firstOfMonth = (new Date(self.currentYear, self.currentMonth, 1).getDay() - Flatpickr.l10n.firstDayOfWeek + 7) % 7,
+		var firstOfMonth = (new Date(self.currentYear, self.currentMonth, 1).getDay() - l10n(self.config.locale).firstDayOfWeek + 7) % 7,
 		    daysInMonth = self.utils.getDaysinMonth(),
 		    prevMonthDays = self.utils.getDaysinMonth((self.currentMonth - 1 + 12) % 12),
 		    days = document.createDocumentFragment();
@@ -244,7 +246,7 @@ function Flatpickr(element, config) {
 
 		self.currentYearElement = createElement("input", "cur_year");
 		self.currentYearElement.type = getInputType();
-		self.currentYearElement.title = Flatpickr.l10n.scrollTitle;
+		self.currentYearElement.title = l10n(self.config.locale).scrollTitle;
 
 		self.nextMonthNav = createElement("span", "flatpickr-next-month");
 		self.nextMonthNav.innerHTML = self.config.nextArrow;
@@ -288,7 +290,7 @@ function Flatpickr(element, config) {
 		self.minuteElement.min = -self.minuteElement.step;
 		self.minuteElement.max = 60;
 
-		self.hourElement.title = self.minuteElement.title = Flatpickr.l10n.scrollTitle;
+		self.hourElement.title = self.minuteElement.title = l10n(self.config.locale).scrollTitle;
 
 		self.timeContainer.appendChild(self.hourElement);
 		self.timeContainer.appendChild(separator);
@@ -312,7 +314,7 @@ function Flatpickr(element, config) {
 		if (!self.config.time_24hr) {
 			// add self.amPM if appropriate
 			self.amPM = createElement("span", "flatpickr-am-pm", ["AM", "PM"][self.hourElement.value > 11 | 0]);
-			self.amPM.title = Flatpickr.l10n.toggleTitle;
+			self.amPM.title = l10n(self.config.locale).toggleTitle;
 			self.amPM.tabIndex = 0;
 			self.timeContainer.appendChild(self.amPM);
 		}
@@ -323,8 +325,8 @@ function Flatpickr(element, config) {
 	function buildWeekdays() {
 		if (!self.weekdayContainer) self.weekdayContainer = createElement("div", "flatpickr-weekdays");
 
-		var firstDayOfWeek = Flatpickr.l10n.firstDayOfWeek;
-		var weekdays = Flatpickr.l10n.weekdays.shorthand.slice();
+		var firstDayOfWeek = l10n(self.config.locale).firstDayOfWeek;
+		var weekdays = l10n(self.config.locale).weekdays.shorthand.slice();
 
 		if (firstDayOfWeek > 0 && firstDayOfWeek < weekdays.length) {
 			weekdays = [].concat(weekdays.splice(firstDayOfWeek, weekdays.length), weekdays.splice(0, firstDayOfWeek));
@@ -338,7 +340,7 @@ function Flatpickr(element, config) {
 	function buildWeeks() {
 		self.calendarContainer.classList.add("hasWeeks");
 		self.weekWrapper = createElement("div", "flatpickr-weekwrapper");
-		self.weekWrapper.appendChild(createElement("span", "flatpickr-weekday", Flatpickr.l10n.weekAbbreviation));
+		self.weekWrapper.appendChild(createElement("span", "flatpickr-weekday", l10n(self.config.locale).weekAbbreviation));
 		self.weekNumbers = createElement("div", "flatpickr-weeks");
 		self.weekWrapper.appendChild(self.weekNumbers);
 		return self.weekWrapper;
@@ -711,7 +713,7 @@ function Flatpickr(element, config) {
 		self.formats = {
 			// weekday name, short, e.g. Thu
 			D: function D(date) {
-				return Flatpickr.l10n.weekdays.shorthand[self.formats.w(date)];
+				return l10n(self.config.locale).weekdays.shorthand[self.formats.w(date)];
 			},
 
 			// full month name e.g. January
@@ -726,7 +728,7 @@ function Flatpickr(element, config) {
 
 			// day (1-30) with ordinal suffix e.g. 1st, 2nd
 			J: function J(date) {
-				return date.getDate() + Flatpickr.l10n.ordinal(date.getDate());
+				return date.getDate() + l10n(self.config.locale).ordinal(date.getDate());
 			},
 
 			// AM/PM
@@ -776,7 +778,7 @@ function Flatpickr(element, config) {
 
 			// weekday name, full, e.g. Thursday
 			l: function l(date) {
-				return Flatpickr.l10n.weekdays.longhand[self.formats.w(date)];
+				return l10n(self.config.locale).weekdays.longhand[self.formats.w(date)];
 			},
 
 			// padded month number (01-12)
@@ -813,12 +815,12 @@ function Flatpickr(element, config) {
 				var yr = arguments.length <= 1 || arguments[1] === undefined ? self.currentYear : arguments[1];
 
 				if (month === 1 && yr % 4 === 0 && yr % 100 !== 0 || yr % 400 === 0) return 29;
-				return Flatpickr.l10n.daysInMonth[month];
+				return l10n(self.config.locale).daysInMonth[month];
 			},
 
 			monthToStr: function monthToStr(monthNumber) {
 				var short = arguments.length <= 1 || arguments[1] === undefined ? self.config.shorthandCurrentMonth : arguments[1];
-				return Flatpickr.l10n.months[(short ? "short" : "long") + "hand"][monthNumber];
+				return l10n(self.config.locale).months[(short ? "short" : "long") + "hand"][monthNumber];
 			}
 		};
 	}
@@ -1050,6 +1052,20 @@ function Flatpickr(element, config) {
 		e.target.value = pad(newValue);
 	}
 
+	function l10n(locale) {
+		if (typeof self.l10n_selected !== "undefined") return self.l10n_selected;
+
+		if (typeof Flatpickr.l10ns[locale] === "undefined") {
+			console.warn("flatpickr: locale " + locale + " undefined");
+			locale = "en";
+		}
+
+		self.l10n_selected = Object.create(Flatpickr.l10ns.en);
+		if (locale != "en") self.l10n_selected = _extends(self.l10n_selected, Flatpickr.l10ns[locale]);
+
+		return self.l10n_selected;
+	}
+
 	init();
 	return self;
 }
@@ -1142,6 +1158,9 @@ Flatpickr.defaultConfig = {
 	// disable native mobile datetime input support
 	disableMobile: false,
 
+	// default locale
+	locale: "en",
+
 	// onChange callback when user selects a date or time
 	onChange: null, // function (dateObj, dateStr) {}
 
@@ -1159,39 +1178,45 @@ Flatpickr.defaultConfig = {
 	onDayCreate: null
 };
 
-Flatpickr.l10n = {
-	weekdays: {
-		shorthand: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-		longhand: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-	},
-	months: {
-		shorthand: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-		longhand: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-	},
-	daysInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-	firstDayOfWeek: 0,
-	ordinal: function ordinal(nth) {
-		var s = nth % 100;
-		if (s > 3 && s < 21) return "th";
-		switch (s % 10) {
-			case 1:
-				return "st";
-			case 2:
-				return "nd";
-			case 3:
-				return "rd";
-			default:
-				return "th";
-		}
-	},
-	weekAbbreviation: "Wk",
-	scrollTitle: "Scroll to increment",
-	toggleTitle: "Click to toggle"
+Flatpickr.l10ns = {
+	en: {
+		weekdays: {
+			shorthand: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+			longhand: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+		},
+		months: {
+			shorthand: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			longhand: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+		},
+		daysInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+		firstDayOfWeek: 0,
+		ordinal: function ordinal(nth) {
+			var s = nth % 100;
+			if (s > 3 && s < 21) return "th";
+			switch (s % 10) {
+				case 1:
+					return "st";
+				case 2:
+					return "nd";
+				case 3:
+					return "rd";
+				default:
+					return "th";
+			}
+		},
+		weekAbbreviation: "Wk",
+		scrollTitle: "Scroll to increment",
+		toggleTitle: "Click to toggle"
+	}
+};
+
+Flatpickr.l10n = function () {
+	return Flatpickr.l10ns.en;
 };
 
 Flatpickr.localize = function (l10n) {
 	Object.keys(l10n).forEach(function (k) {
-		return Flatpickr.l10n[k] = l10n[k];
+		return Flatpickr.l10n()[k] = l10n[k];
 	});
 };
 
@@ -1299,6 +1324,29 @@ if (!("classList" in document.documentElement) && Object.defineProperty && typeo
 			return ret;
 		}
 	});
+}
+
+// Object.assign polyfill
+if (typeof Object.assign != "function") {
+	(function () {
+		Object.assign = function (target) {
+			"use strict";
+			// We must check against these specific cases.
+
+			if (target === undefined || target === null) throw new TypeError("Cannot convert undefined or null to object");
+
+			var output = Object(target);
+			for (var index = 1; index < arguments.length; index++) {
+				var source = arguments[index];
+				if (source !== undefined && source !== null) {
+					for (var nextKey in source) {
+						if (source.hasOwnProperty(nextKey)) output[nextKey] = source[nextKey];
+					}
+				}
+			}
+			return output;
+		};
+	})();
 }
 
 if (typeof module !== "undefined") module.exports = Flatpickr;
