@@ -380,7 +380,7 @@ function Flatpickr(element, config) {
 
 		self.currentMonthElement = createElement("span", "cur-month");
 
-		self.currentYearElement = createElement("input", "cur_year");
+		self.currentYearElement = createElement("input", "cur-year");
 		self.currentYearElement.type = self.numInputType;
 		self.currentYearElement.title = l10n(self.config.locale).scrollTitle;
 
